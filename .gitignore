@@ -64,23 +64,12 @@ htmlcov/
 # ==============================
 *.pkl
 *.pickle
-*.joblib
 *.h5
 *.keras
 *.pt
 *.pth
 *.onnx
 *.model
-
-# ==============================
-# Data Science & Datasets
-# ==============================
-data/
-datasets/
-*.csv
-*.xlsx
-*.xls
-*.parquet
 
 # ==============================
 # Temporary Files
@@ -110,14 +99,3 @@ dist/
 
 :::
 
-### 3. Important things to know
-
-**For Machine Learning and Data Science projects:**
-
-The following rules prevent Git from tracking datasets and trained models:
-
-```gitignore
-*.csv
-*.joblib
-*.pkl
-*.parquet
