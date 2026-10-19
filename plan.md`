@@ -1,0 +1,55 @@
+# Prescriptive Analytics Engine: Resource Optimization Plan
+
+## 1. Project Philosophy
+The system follows a "Baseline-to-Target" workflow. Instead of simply searching for any configuration that hits a target, the system analyzes the *current* resource allocation and suggests the *minimum necessary change* to align production with the plan.
+
+### The Logic Flow:
+1. **Baseline Prediction**: Input current resources $\rightarrow$ Model predicts `predicted_actual_qty`.
+2. **Gap Classification**:
+    - $\text{predicted\_actual\_qty} > \text{planned\_qty}$ $\rightarrow$ **Overproduction** $\rightarrow$ Strategy: **Resource Reduction**.
+    - $\text{predicted\_actual\_qty} < \text{planned\_qty}$ $\rightarrow$ **Underproduction** $\rightarrow$ Strategy: **Resource Expansion**.
+    - $\text{predicted\_actual\_qty} \approx \text{planned\_qty}$ $\rightarrow$ **Balanced** $\rightarrow$ Strategy: **No Change**.
+3. **Prescriptive Optimization**: Search for a new configuration that minimizes the gap while keeping changes relative to the baseline.
+
+---
+
+## 2. Notebook Implementation Roadmap
+
+### Notebook 6: Baseline Prediction & Gap Analysis
+**Goal**: Establish the starting point.
+- **Input**: Current resource configuration for a specific item.
+- **Process**: Use the Phase 1 model to predict the expected output.
+- **Output**: A "Status Report" (Overproduced/Underproduced/Balanced) based on the `planned_qty`.
+
+### Notebook 7: Resource Boundary & Step Definitions
+**Goal**: Define the "allowable" changes.
+- **Bounds**: Define absolute min/max for workers, hours, and machines.
+- **Change Steps**: Define the smallest possible change (e.g., 1 worker, 8 hours) to ensure recommendations are actionable.
+
+### Notebook 8: The Delta Optimizer (The "Change" Engine)
+**Goal**: Find the best *adjustment* to current resources.
+- **Scenario A (Underproduction)**: Search for combinations where `resources > baseline` until `prediction` $\approx$ `planned_qty`.
+- **Scenario B (Overproduction)**: Search for combinations where `resources < baseline` until `prediction` $\approx$ `planned_qty`.
+- **Scoring**: Rank results based on the smallest deviation from the baseline that still hits the target.
+
+### Notebook 9: End-to-End Validation
+**Goal**: Verify the logic across different real-world cases.
+- **Test 1**: Baseline predicts 50, Planned is 40 $\rightarrow$ Verify AI suggests reducing workers.
+- **Test 2**: Baseline predicts 30, Planned is 40 $\rightarrow$ Verify AI suggests increasing hours/machines.
+- **Test 3**: Baseline predicts 40, Planned is 40 $\rightarrow$ Verify AI suggests "No change needed".
+
+---
+
+## 3. Transition to Streamlit App (Future Phase)
+The logic from these notebooks will be wrapped into a Python application.
+
+### App Architecture:
+1. **Input Panel**: User selects Item $\rightarrow$ Enters Current Resources $\rightarrow$ Enters Planned Qty.
+2. **Analysis Engine**:
+    - Runs the Baseline Prediction.
+    - Calculates the Gap.
+    - Triggers the Delta Optimizer if a gap exists.
+3. **Result Dashboard**:
+    - **Current State**: "You are currently on track to produce X units (Over/Under by Y)."
+    - **Recommendation**: "To hit your target of Z, we recommend: [Change in Workers], [Change in Hours]."
+    - **Visuals**: Comparison charts showing (Current Prediction vs. Target vs. Recommended Prediction).
