@@ -13,7 +13,7 @@ import streamlit as st
 # ============================================================
 
 st.set_page_config(
-    page_title="DI Leather | Production Intelligence",
+    page_title="Footwear Production Intelligence",
     page_icon="👞",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -27,7 +27,7 @@ st.set_page_config(
 PROJECT_DIR = Path(__file__).resolve().parent
 MODEL_PATH = PROJECT_DIR / "models" / "production_model.joblib"
 DATA_PATH = PROJECT_DIR / "data" / "processed" / "final_features.csv"
-IMAGE_PATH = PROJECT_DIR / "assets" / "di_leather_shoes.png"
+IMAGE_PATH = PROJECT_DIR / "assets" / "footwear_shoes.png"
 
 FEATURES = [
     "financial_month",
@@ -60,15 +60,29 @@ RESOURCE_COLUMNS = [
 
 
 # ============================================================
-# 3. COMPANY DASHBOARD STYLING
+# 3. HIGH-CONTRAST DASHBOARD STYLING
 # ============================================================
 
 st.markdown(
     """
     <style>
     .stApp {
-        background: linear-gradient(145deg, #071426 0%, #0b1d33 55%, #102743 100%);
+        background: linear-gradient(145deg, #071426 0%, #0b1d33 55%, #102743 100%) !important;
         color: #edf4ff;
+    }
+
+    /* Match Streamlit's top header and toolbar to the dark dashboard */
+    [data-testid="stHeader"],
+    [data-testid="stToolbar"],
+    [data-testid="stDecoration"],
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"] {
+        background: #071426 !important;
+    }
+
+    [data-testid="stAppViewBlockContainer"] {
+        background: transparent !important;
+        padding-top: 1.2rem !important;
     }
 
     [data-testid="stSidebar"] {
@@ -226,6 +240,178 @@ st.markdown(
     [data-testid="stCaptionContainer"] {
         color: #a9bed6;
     }
+
+
+    /* High-contrast, readable input controls */
+    .stApp, [data-testid="stAppViewContainer"] {
+        color: #ffffff !important;
+    }
+    h1, h2, h3, h4, p, label, .stMarkdown, .stCaption,
+    [data-testid="stWidgetLabel"] p,
+    [data-testid="stCaptionContainer"] {
+        color: #ffffff !important;
+    }
+    [data-testid="stWidgetLabel"] {
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+    }
+    /* White fields with dark text make values visible at a distance */
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="textarea"] > div {
+        background: #ffffff !important;
+        border: 2px solid #b9d8ff !important;
+        border-radius: 9px !important;
+        min-height: 46px !important;
+    }
+    div[data-baseweb="select"] *,
+    div[data-baseweb="input"] input,
+    div[data-baseweb="textarea"] textarea {
+        color: #10243b !important;
+        -webkit-text-fill-color: #10243b !important;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        opacity: 1 !important;
+    }
+    div[data-baseweb="select"] svg {
+        fill: #10243b !important;
+    }
+    [data-testid="stNumberInput"] button {
+        color: #10243b !important;
+        background: #e8f2ff !important;
+        border-left: 1px solid #9abce5 !important;
+    }
+    [data-testid="stSidebar"] * {
+        color: #ffffff !important;
+    }
+    .stCaption, [data-testid="stCaptionContainer"] {
+        color: #e5efff !important;
+        font-size: 0.9rem !important;
+        line-height: 1.45 !important;
+    }
+    .hero {
+        background: #102b49 !important;
+        border: 2px solid #8abfff !important;
+    }
+    .section-card, div[data-testid="stMetric"] {
+        background: #10243b !important;
+        border: 1px solid #8abfff !important;
+    }
+    div[data-testid="stMetric"] label,
+    div[data-testid="stMetric"] [data-testid="stMetricValue"],
+    div[data-testid="stMetric"] [data-testid="stMetricDelta"] {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 800 !important;
+    }
+    div.stButton > button[kind="primary"],
+    [data-testid="stDownloadButton"] button {
+        background: #ffffff !important;
+        color: #06203a !important;
+        border: 2px solid #9bc9ff !important;
+        font-size: 1rem !important;
+        font-weight: 800 !important;
+        min-height: 48px !important;
+    }
+    div.stButton > button[kind="primary"]:hover,
+    [data-testid="stDownloadButton"] button:hover {
+        background: #dcecff !important;
+        color: #06203a !important;
+    }
+    [data-testid="stAlert"] {
+        border: 2px solid #ffffff !important;
+    }
+    .status-under, .status-over, .status-keep {
+        border: 2px solid #ffffff !important;
+    }
+    .eyebrow {
+        color: #ffffff !important;
+        letter-spacing: 1.5px !important;
+    }
+    /* Visible dropdown menu options */
+    ul[role="listbox"], li[role="option"] {
+        background: #ffffff !important;
+        color: #10243b !important;
+    }
+    li[role="option"] * {
+        color: #10243b !important;
+    }
+
+    /* Matched current/proposed resource cards */
+    .resource-section-heading {
+        min-height: 82px;
+        display: flex;
+        align-items: center;
+        padding: 18px 22px;
+        margin-bottom: 14px;
+        border-radius: 16px;
+        color: #ffffff !important;
+        font-size: 1.55rem;
+        font-weight: 800;
+        border: 1.5px solid #8abfff;
+        background: #142c45;
+        box-sizing: border-box;
+    }
+    .resource-section-heading.proposed {
+        background: #202044;
+        border-color: #a99cff;
+    }
+    .resource-row-card {
+        min-height: 128px;
+        box-sizing: border-box;
+        padding: 19px 20px;
+        margin-bottom: 14px;
+        border-radius: 15px;
+        border: 1.5px solid #8abfff;
+        background: #10243b;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .resource-row-card.proposed {
+        border-color: #a99cff;
+        background: #142640;
+    }
+    .resource-row-label {
+        color: #ffffff !important;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 9px;
+    }
+    .resource-row-value {
+        color: #ffffff !important;
+        font-size: 2.15rem;
+        font-weight: 800;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+    }
+    .resource-row-delta {
+        color: #ffffff !important;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-top: 9px;
+    }
+    div.stButton > button[kind="primary"] {
+        width: 100%;
+        min-height: 58px !important;
+        background: #dcecff !important;
+        color: #071526 !important;
+        -webkit-text-fill-color: #071526 !important;
+        border: 2px solid #8abfff !important;
+        border-radius: 12px !important;
+        font-size: 1.05rem !important;
+        font-weight: 800 !important;
+    }
+    div.stButton > button[kind="primary"] * {
+        color: #071526 !important;
+        -webkit-text-fill-color: #071526 !important;
+    }
+    div.stButton > button[kind="primary"]:hover {
+        background: #ffffff !important;
+        color: #071526 !important;
+        -webkit-text-fill-color: #071526 !important;
+        border-color: #ffffff !important;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -309,6 +495,42 @@ def clean_options(series):
     """Return unique, non-empty historical values."""
     values = series.dropna().unique().tolist()
     return sorted(values, key=lambda value: str(value))
+
+
+def infer_week_no(financial_month, week_of_month):
+    """
+    The trained model still expects week_no, but the dashboard does not
+    ask users to enter it. Use the median historical week_no for records
+    matching the selected financial month and week of month. If no exact
+    match exists, progressively fall back to matching week-of-month and
+    then the overall historical median.
+    """
+    week_values = pd.to_numeric(
+        historical_data["week_no"], errors="coerce"
+    )
+
+    exact = historical_data[
+        (historical_data["financial_month"] == financial_month)
+        & (pd.to_numeric(historical_data["week_of_month"], errors="coerce")
+           == int(week_of_month))
+    ]
+
+    exact_weeks = pd.to_numeric(exact["week_no"], errors="coerce").dropna()
+    if not exact_weeks.empty:
+        return int(round(float(exact_weeks.median())))
+
+    month_week = historical_data[
+        pd.to_numeric(historical_data["week_of_month"], errors="coerce")
+        == int(week_of_month)
+    ]
+    fallback_weeks = pd.to_numeric(month_week["week_no"], errors="coerce").dropna()
+    if not fallback_weeks.empty:
+        return int(round(float(fallback_weeks.median())))
+
+    week_values = week_values.dropna()
+    if week_values.empty:
+        raise ValueError("Cannot infer the internal week number from historical data.")
+    return int(round(float(week_values.median())))
 
 
 def historical_bounds(column):
@@ -533,7 +755,7 @@ def make_recommendations(
 
 
 # ============================================================
-# 6. COMPANY SIDEBAR
+# 6. DASHBOARD SIDEBAR
 # ============================================================
 
 with st.sidebar:
@@ -541,7 +763,7 @@ with st.sidebar:
         """
         <div style="text-align:center; padding:10px 0 20px 0;">
             <div style="font-size:2.8rem;">👞</div>
-            <h2 style="margin:0;">DI LEATHER</h2>
+            <h2 style="margin:0;">FOOTWEAR ANALYTICS</h2>
             <p style="color:#93b9e2; font-size:0.82rem;
                       letter-spacing:1.5px;">
                 PRODUCTION INTELLIGENCE
@@ -583,7 +805,7 @@ with st.sidebar:
 
 
 # ============================================================
-# 7. BRANDED HERO HEADER
+# 7. DASHBOARD HERO HEADER
 # ============================================================
 
 hero_left, hero_right = st.columns(
@@ -597,7 +819,7 @@ with hero_left:
         """
         <div class="hero">
             <div class="eyebrow">
-                DI Leather | Operations
+                FOOTWEAR MANUFACTURING
             </div>
             <h1>
                 Production planning,<br>
@@ -625,17 +847,13 @@ with hero_right:
             <div class="section-card"
                  style="text-align:center;padding:48px 20px;">
                 <div style="font-size:4rem;">👞</div>
-                <h3>DI Leather Production</h3>
+                <h3>Footwear Production</h3>
                 <p style="color:#b6cbe3;">
                     Weekly production planning and decision support
                 </p>
             </div>
             """,
             unsafe_allow_html=True,
-        )
-        st.caption(
-            "Optional: place your leather-shoe image at "
-            "assets/di_leather_shoes.png."
         )
 
 st.markdown("## Weekly production workspace")
@@ -733,17 +951,23 @@ with st.container(border=True):
         factory_unit = st.selectbox(
             "Factory unit",
             factory_options,
+            help="The production unit where the selected item is made.",
         )
+        st.caption("Production area or unit responsible for the item.")
 
         product_family = st.selectbox(
             "Product family",
             family_options,
+            help="The broader category of footwear product.",
         )
+        st.caption("Group of related footwear products.")
 
         financial_month = st.selectbox(
             "Financial month",
             month_options,
+            help="The financial month associated with this production week.",
         )
+        st.caption("Month used to organise the production period.")
 
     with context_col2:
         # Product selection is narrowed by family and factory.
@@ -765,7 +989,9 @@ with st.container(border=True):
         item_name = st.selectbox(
             "Item",
             available_items,
+            help="The specific product or item being produced.",
         )
+        st.caption("Specific footwear item being planned.")
 
         item_rows = historical_data[
             (historical_data["factory_unit"] == factory_unit)
@@ -792,35 +1018,65 @@ with st.container(border=True):
         size_id = st.selectbox(
             "Size",
             available_sizes,
+            help="The shoe size associated with the selected item.",
         )
+        st.caption("Size variant of the selected footwear item.")
 
         grade = st.selectbox(
             "Grade",
             available_grades,
+            help="The product grade or quality classification in the data.",
         )
+        st.caption("Recorded product grade or quality category.")
 
     with context_col3:
         order_category = st.selectbox(
             "Order category",
             category_options,
+            help="The recorded category of the production order.",
+        )
+        st.caption("Type or classification of the order.")
+
+        # Offer only week-of-month positions that actually occur in the
+        # historical records for the selected financial month. This avoids
+        # showing week 5 for a month when the training data has no week-5
+        # records for that financial month. The available values follow the
+        # dataset's existing definition of week_of_month.
+        month_rows = historical_data[
+            historical_data["financial_month"] == financial_month
+        ]
+        available_week_positions = sorted(
+            pd.to_numeric(
+                month_rows["week_of_month"], errors="coerce"
+            ).dropna().astype(int).unique().tolist()
         )
 
-        week_no = st.number_input(
-            "Week number",
-            min_value=1,
-            max_value=53,
-            value=22,
-            step=1,
-            help="Enter the calendar or production week number.",
-        )
+        if not available_week_positions:
+            available_week_positions = sorted(
+                pd.to_numeric(
+                    historical_data["week_of_month"], errors="coerce"
+                ).dropna().astype(int).unique().tolist()
+            )
 
-        week_of_month = st.number_input(
+        if not available_week_positions:
+            st.error("No valid week-of-month values were found in the historical data.")
+            st.stop()
+
+        preferred_week = 3 if 3 in available_week_positions else available_week_positions[0]
+        week_of_month = st.selectbox(
             "Week of month",
-            min_value=1,
-            max_value=5,
-            value=3,
-            step=1,
+            options=available_week_positions,
+            index=available_week_positions.index(preferred_week),
+            help=(
+                "Choose a week position observed for the selected financial month "
+                "in the historical dataset."
+            ),
         )
+        st.caption("Select a week position available for this financial month.")
+
+    # Hidden compatibility feature: the current saved model expects week_no.
+    # It is inferred from historical records, not requested from the user.
+    week_no = infer_week_no(financial_month, int(week_of_month))
 
 
 # ============================================================
@@ -830,42 +1086,29 @@ with st.container(border=True):
 st.markdown("### 2. Enter the weekly production plan")
 
 with st.container(border=True):
-    target_col1, target_col2 = st.columns(2)
+    planned_quantity = st.number_input(
+        "Planned weekly production quantity",
+        min_value=0.01,
+        max_value=1_000_000_000.0,
+        value=50.0,
+        step=1.0,
+        format="%.2f",
+        help=(
+            "Enter the real target for this product and week. "
+            "Use the same unit as actual_qty in the historical data."
+        ),
+    )
+    st.caption("Target quantity planned for this product during the week.")
 
-    with target_col1:
-        planned_quantity = st.number_input(
-            "Planned weekly production quantity",
-            min_value=0.01,
-            max_value=1_000_000_000.0,
-            value=50.0,
-            step=1.0,
-            format="%.2f",
-            help=(
-                "Enter the real target for this product and week. "
-                "Use the same unit as actual_qty in the historical data."
-            ),
-        )
-
-    with target_col2:
-        tolerance = st.number_input(
-            "Acceptable difference from target",
-            min_value=0.0,
-            max_value=1_000_000_000.0,
-            value=2.0,
-            step=0.5,
-            format="%.2f",
-            help=(
-                "If the prediction is within this many units "
-                "of the target, the recommendation is to keep "
-                "the current resources."
-            ),
-        )
+# Internal classification tolerance. This is deliberately not exposed as a dashboard input.
+# A prediction within 2 units of the planned quantity is classified as within tolerance.
+tolerance = 2.0
 
 st.markdown("### 3. Enter the current weekly resources")
 
 st.caption(
     "Inputs are checked against historical data ranges. "
-    "These ranges are provisional until confirmed by DI Leather."
+    "These are observed historical ranges, not approved operating limits."
 )
 
 resource_col1, resource_col2, resource_col3 = st.columns(3)
@@ -888,7 +1131,9 @@ with resource_col1:
             )
         ),
         step=1,
+        help="Number of people assigned to this product's weekly production.",
     )
+    st.caption("People working on the selected product during the week.")
 
     machine_count = st.number_input(
         f"Number of machines ({machine_min}–{machine_max})",
@@ -907,7 +1152,9 @@ with resource_col1:
             )
         ),
         step=1,
+        help="Number of machines available for this product's production.",
     )
+    st.caption("Machines assigned to the selected production work.")
 
 with resource_col2:
     working_hours = st.number_input(
@@ -927,10 +1174,10 @@ with resource_col2:
         step=1.0,
         format="%.2f",
         help=(
-            "This is the total labour-hours across all workers "
-            "for the week, not the hours for each worker."
+            "Total labour-hours across all workers for the week, not hours per worker."
         ),
     )
+    st.caption("Combined hours worked by all workers during the week.")
 
     rate = st.number_input(
         f"Rate ({rate_min:.2f}–{rate_max:.2f})",
@@ -948,7 +1195,9 @@ with resource_col2:
         ),
         step=10.0,
         format="%.2f",
+        help="The historical rate value associated with the selected product.",
     )
+    st.caption("Recorded product rate used by the prediction model.")
 
 with resource_col3:
     bottleneck_flag = st.selectbox(
@@ -957,7 +1206,9 @@ with resource_col3:
         format_func=lambda value: (
             "Yes" if value else "No"
         ),
+        help="Indicates whether a bottleneck is recorded for this production context.",
     )
+    st.caption("Whether a production bottleneck is recorded.")
 
     st.markdown(
         """
@@ -1044,8 +1295,12 @@ if validation_errors:
 st.markdown("---")
 st.markdown("### 4. Predict and assess production")
 
+st.caption(
+    "Turn your production plan into a clearer picture of expected output "
+    "and resource options."
+)
 predict_button = st.button(
-    "Predict production and generate recommendations",
+    "⚡ Predict Production & Explore Recommendations",
     type="primary",
     use_container_width=True,
     disabled=bool(validation_errors),
@@ -1320,59 +1575,51 @@ if "di_result" in st.session_state:
             )
             proposed_gap = float(best_candidate["gap"])
 
+            # Side-by-side comparison: each row contains matching cards,
+            # so current and proposed values align horizontally.
             current_col, proposed_col = st.columns(2, gap="large")
 
             with current_col:
                 st.markdown(
-                    """
-                    <div class="resource-current">
-                        <h3>🔹 Current resources</h3>
-                    </div>
-                    """,
+                    '<div class="resource-section-heading">🔹 Current Resources</div>',
                     unsafe_allow_html=True,
                 )
-
-                st.metric("Workers", current_workers)
-                st.metric(
-                    "Weekly labour-hours",
-                    f"{current_hours:,.2f}",
-                )
-                st.metric("Machines", current_machines)
-                st.metric(
-                    "Predicted quantity",
-                    f"{current_prediction:,.2f}",
-                )
-
             with proposed_col:
                 st.markdown(
-                    """
-                    <div class="resource-proposed">
-                        <h3>✨ Proposed resources</h3>
-                    </div>
-                    """,
+                    '<div class="resource-section-heading proposed">✨ Proposed Resources</div>',
                     unsafe_allow_html=True,
                 )
 
-                st.metric(
-                    "Workers",
-                    proposed_workers,
-                    delta=proposed_workers - current_workers,
-                )
-                st.metric(
-                    "Weekly labour-hours",
-                    f"{proposed_hours:,.2f}",
-                    delta=f"{proposed_hours - current_hours:+,.2f}",
-                )
-                st.metric(
-                    "Machines",
-                    proposed_machines,
-                    delta=proposed_machines - current_machines,
-                )
-                st.metric(
-                    "Predicted quantity",
-                    f"{proposed_prediction:,.2f}",
-                    delta=f"{proposed_prediction - current_prediction:+,.2f}",
-                )
+            resource_rows = [
+                ("Workers", f"{current_workers:,}", f"{proposed_workers:,}", proposed_workers - current_workers, "count"),
+                ("Weekly labour-hours", f"{current_hours:,.2f}", f"{proposed_hours:,.2f}", proposed_hours - current_hours, "hours"),
+                ("Machines", f"{current_machines:,}", f"{proposed_machines:,}", proposed_machines - current_machines, "count"),
+                ("Predicted quantity", f"{current_prediction:,.2f}", f"{proposed_prediction:,.2f}", proposed_prediction - current_prediction, "quantity"),
+            ]
+
+            for label, current_value, proposed_value, delta_value, delta_type in resource_rows:
+                current_col, proposed_col = st.columns(2, gap="large")
+                with current_col:
+                    st.markdown(
+                        f"""<div class="resource-row-card">
+                            <div class="resource-row-label">{label}</div>
+                            <div class="resource-row-value">{current_value}</div>
+                        </div>""",
+                        unsafe_allow_html=True,
+                    )
+                with proposed_col:
+                    if delta_type in ("hours", "quantity"):
+                        delta_text = f"Change: {delta_value:+,.2f}"
+                    else:
+                        delta_text = f"Change: {delta_value:+,d}"
+                    st.markdown(
+                        f"""<div class="resource-row-card proposed">
+                            <div class="resource-row-label">{label}</div>
+                            <div class="resource-row-value">{proposed_value}</div>
+                            <div class="resource-row-delta">{delta_text}</div>
+                        </div>""",
+                        unsafe_allow_html=True,
+                    )
 
             st.markdown("### What should change?")
 
@@ -1505,7 +1752,7 @@ if "di_result" in st.session_state:
             st.download_button(
                 label="Download evaluated resource scenarios",
                 data=download_data.to_csv(index=False).encode("utf-8"),
-                file_name="di_leather_resource_scenarios.csv",
+                file_name="footwear_resource_scenarios.csv",
                 mime="text/csv",
                 use_container_width=True,
             )
@@ -1518,7 +1765,7 @@ if "di_result" in st.session_state:
 st.markdown(
     """
     <div class="footer-note">
-        DI Leather Production Intelligence · Weekly production
+        Footwear Production Intelligence · Weekly production
         planning and decision support
     </div>
     """,
