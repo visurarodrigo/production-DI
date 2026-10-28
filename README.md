@@ -117,9 +117,9 @@ production-DI/
 ├── app.py
 ├── requirements.txt
 ├── README.md
+|── app_preview.png
 ├── docs/
 │   └── images/
-│       ├── app_preview.png
 │       ├── app_preview_overview.png
 │       ├── app_preview_recommendations.png
 │       ├── preprocessing_rate_after.png
