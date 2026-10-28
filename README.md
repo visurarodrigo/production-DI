@@ -245,33 +245,6 @@ The project reports the following held-out test-set results for the selected Vot
 
 These are held-out chronological evaluation results reported in the Phase 2 roadmap and should be revalidated if the dataset, feature definitions, preprocessing, or model artifact changes.
 
-## Reports and project direction
-
-### Phase 2 Prescriptive Analytics Roadmap
-
-`reports/DI_Leather_Phase_2_Prescriptive_Analytics_Roadmap.docx` defines the intended production decision-support architecture:
-
-- Reuse the saved Phase 1 prediction pipeline rather than train a second prediction model
-- Start with transparent exhaustive enumeration over approved discrete resource levels
-- Compare baseline predictions with planned quantities using a configurable tolerance band
-- Keep product and order context fixed while varying controllable resources
-- Validate worker, machine, shift, overtime, bottleneck, and compatibility constraints with DI Leather
-- Present ranked alternatives, gaps, warnings, and assumptions in a Streamlit dashboard
-- Add auditability, planner review, pilot validation, and prospective monitoring before operational reliance
-
-The roadmap explicitly states that historical minimum and maximum values are provisional search boundaries, not approved factory capacity limits. It also recommends replacing the current resource-use proxy with real labour, overtime, machine, energy, storage, and waste costs when those data become available.
-
-### Updated research proposal
-
-`reports/DI_Leather_Updated_Research_Proposal.docx` provides the project context and research framing. Together with the roadmap, the reports establish these principles:
-
-- The target is weekly `actual_qty`
-- Future planning must compare a planned quantity with a baseline prediction because future actual output is unknown
-- Target-derived fields must not be used as predictors
-- `bottleneck_flag` must be checked for decision-time availability to avoid leakage
-- Recommendations require production-expert validation and must not be presented as guaranteed outcomes
-- Data confidentiality, authorised use, honest reporting, and human oversight are required
-
 ## Installation
 
 ### Requirements
