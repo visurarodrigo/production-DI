@@ -19,11 +19,15 @@ The Streamlit application guides the user through production context, weekly pla
 
 ![Production planning workspace](docs/images/app_preview_overview.png)
 
+This screen collects the production context, planned quantity, and available resources used for forecasting.
+
 ### Prediction and resource recommendations
 
 After prediction, the application presents the production decision, status, proposed resource changes, scenario comparison, and downloadable results.
 
 ![Prediction and resource recommendations](docs/images/app_preview_recommendations.png)
+
+This view shows the forecast, production status, recommended resource changes, and scenario results.
 
 ## Analytical previews
 
@@ -35,19 +39,31 @@ The preprocessing workflow examines the `rate` distribution and applies the docu
 
 ![Rate distribution after preprocessing](docs/images/preprocessing_rate_after.png)
 
+The chart shows the distribution of `rate` values after the lower-tail outlier filter has been applied.
+
 ### Exploratory analysis
 
 The EDA phase examines the target distribution, time patterns, categorical production drivers, bottleneck differences, and numerical relationships.
 
 ![Actual production distribution](docs/images/eda_actual_distribution.png)
 
+This distribution shows how weekly actual production quantities are spread across the dataset.
+
 ![Weekly production trend](docs/images/eda_weekly_trend.png)
+
+This trend highlights how production quantities changed over the observed production weeks.
 
 ![Production by category](docs/images/eda_category_comparison.png)
 
+This comparison shows differences in average production across the main production categories.
+
 ![Bottleneck comparison](docs/images/eda_bottleneck_comparison.png)
 
+This chart compares production outcomes for records with and without a reported bottleneck.
+
 ![Correlation analysis](docs/images/eda_correlation.png)
+
+This correlation view summarises relationships between numerical production and resource variables.
 
 ### Model interpretation and evaluation
 
@@ -55,15 +71,23 @@ Model diagnostics include feature importance, held-out actual-versus-predicted v
 
 ![Model feature importance](docs/images/model_feature_importance.png)
 
+This plot ranks the input features by their contribution to the trained production model.
+
 ![Actual versus predicted production](docs/images/evaluation_actual_vs_predicted.png)
 
+This comparison indicates how closely the model's predictions align with held-out actual quantities.
+
 ![Prediction error analysis](docs/images/evaluation_error_analysis.png)
+
+This analysis shows the size and pattern of the model's prediction errors.
 
 ### Prescriptive analysis
 
 The prescriptive notebook evaluates candidate resource configurations and visualises the strongest scenarios relative to the planned quantity.
 
 ![Prescriptive candidate scenarios](docs/images/prescriptive_scenarios.png)
+
+This chart compares candidate resource configurations and highlights scenarios near the planned target.
 
 ## Key capabilities
 
