@@ -1,3 +1,15 @@
+---
+title: Footwear Production Intelligence
+emoji: "\U0001F45E"
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+sdk_version: 1.63.0
+app_file: app.py
+pinned: false
+license: mit
+---
+
 # Footwear Production Intelligence
 
 Footwear Production Intelligence is a machine-learning application for weekly production forecasting and resource planning in a footwear manufacturing environment.
