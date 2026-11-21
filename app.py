@@ -27,7 +27,8 @@ st.set_page_config(
 PROJECT_DIR = Path(__file__).resolve().parent
 MODEL_PATH = PROJECT_DIR / "models" / "production_model.joblib"
 DATA_PATH = PROJECT_DIR / "data" / "processed" / "final_features.csv"
-IMAGE_PATH = PROJECT_DIR / "assets" / "footwear_shoes.png"
+HERO_IMAGE_PATH = PROJECT_DIR / "assets" / "image1.png"
+SIDEBAR_IMAGE_PATH = PROJECT_DIR / "assets" / "image2.png"
 
 FEATURES = [
     "financial_month",
@@ -277,17 +278,85 @@ st.markdown(
         fill: #10243b !important;
     }
     [data-testid="stNumberInput"] button {
-        color: #10243b !important;
-        background: #e8f2ff !important;
-        border-left: 1px solid #9abce5 !important;
+        color: #ffffff !important;
+        background: #10243b !important;
+        border-left: 1px solid #8abfff !important;
+        opacity: 1 !important;
+    }
+    [data-testid="stNumberInput"] button svg {
+        color: #ffffff !important;
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+        opacity: 1 !important;
+    }
+    [data-testid="stNumberInput"] button svg path,
+    [data-testid="stNumberInput"] button svg line,
+    [data-testid="stNumberInput"] button svg polyline {
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+        opacity: 1 !important;
+    }
+    [data-testid="stWidgetLabel"] button {
+        background: transparent !important;
+        border: none !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        box-shadow: none !important;
+        opacity: 1 !important;
+    }
+    [data-testid="stWidgetLabel"] svg,
+    [data-testid="stTooltipIcon"] svg,
+    [data-testid="stWidgetLabel"] svg path,
+    [data-testid="stTooltipIcon"] svg path {
+        color: #ffffff !important;
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+        opacity: 1 !important;
+    }
+    [data-testid="stWidgetLabel"] svg circle,
+    [data-testid="stTooltipIcon"] svg circle {
+        fill: none !important;
+        stroke: #ffffff !important;
+        opacity: 1 !important;
+    }
+    [data-testid="stWidgetLabel"] label,
+    [data-testid="stWidgetLabel"] label *,
+    [data-testid="stWidgetLabel"] p,
+    [data-testid="stWidgetLabel"] p * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 800 !important;
     }
     [data-testid="stSidebar"] * {
         color: #ffffff !important;
     }
-    .stCaption, [data-testid="stCaptionContainer"] {
-        color: #e5efff !important;
+    [data-testid="stSidebar"] [data-testid="stImage"] {
+        margin-bottom: -0.75rem !important;
+    }
+    .sidebar-branding {
+        text-align: center;
+        padding: 0 0 8px 0;
+        margin: 0;
+    }
+    .sidebar-branding h2 {
+        margin: 0 0 6px 0 !important;
+    }
+    .sidebar-branding p {
+        margin: 0 !important;
+    }
+    [data-testid="stSidebar"] .stDivider {
+        margin: 8px 0 !important;
+    }
+    .stCaption,
+    .stCaption *,
+    [data-testid="stCaptionContainer"],
+    [data-testid="stCaptionContainer"] * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
         font-size: 0.9rem !important;
         line-height: 1.45 !important;
+        font-style: italic !important;
+        opacity: 1 !important;
     }
     .hero {
         background: #102b49 !important;
@@ -352,12 +421,15 @@ st.markdown(
         background: #142c45;
         box-sizing: border-box;
     }
+    .prescriptive {
+        margin-bottom: 24px;
+    }
     .resource-section-heading.proposed {
         background: #202044;
         border-color: #a99cff;
     }
     .resource-row-card {
-        min-height: 128px;
+        min-height: 144px;
         box-sizing: border-box;
         padding: 19px 20px;
         margin-bottom: 14px;
@@ -385,6 +457,18 @@ st.markdown(
         line-height: 1.15;
         overflow-wrap: anywhere;
     }
+    .resource-row-value.change-increase,
+    .resource-row-delta.change-increase {
+        color: #55e39b !important;
+    }
+    .resource-row-value.change-decrease,
+    .resource-row-delta.change-decrease {
+        color: #ff6f7d !important;
+    }
+    .resource-row-value.change-equal,
+    .resource-row-delta.change-equal {
+        color: #ffd35a !important;
+    }
     .resource-row-delta {
         color: #ffffff !important;
         font-size: 0.9rem;
@@ -399,7 +483,7 @@ st.markdown(
         -webkit-text-fill-color: #071526 !important;
         border: 2px solid #8abfff !important;
         border-radius: 12px !important;
-        font-size: 1.05rem !important;
+        font-size: 1.575rem !important;
         font-weight: 800 !important;
     }
     div.stButton > button[kind="primary"] * {
@@ -411,6 +495,24 @@ st.markdown(
         color: #071526 !important;
         -webkit-text-fill-color: #071526 !important;
         border-color: #ffffff !important;
+    }
+    [data-testid="stAlert"] {
+        border-radius: 14px !important;
+    }
+    .change-list {
+        font-size: 1.5rem;
+        line-height: 1.6;
+    }
+    [data-testid="stDownloadButton"] button {
+        border-radius: 14px !important;
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        font-size: 1.5rem !important;
+        font-weight: 800 !important;
+    }
+    [data-testid="stDownloadButton"] button * {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
     }
     </style>
     """,
@@ -759,10 +861,12 @@ def make_recommendations(
 # ============================================================
 
 with st.sidebar:
+    if SIDEBAR_IMAGE_PATH.exists():
+        st.image(str(SIDEBAR_IMAGE_PATH), use_container_width=True)
+
     st.markdown(
         """
-        <div style="text-align:center; padding:10px 0 20px 0;">
-            <div style="font-size:2.8rem;">👞</div>
+        <div class="sidebar-branding">
             <h2 style="margin:0;">FOOTWEAR ANALYTICS</h2>
             <p style="color:#93b9e2; font-size:0.82rem;
                       letter-spacing:1.5px;">
@@ -836,25 +940,10 @@ with hero_left:
     )
 
 with hero_right:
-    if IMAGE_PATH.exists():
-        st.image(
-            str(IMAGE_PATH),
-            use_container_width=True,
-        )
-    else:
-        st.markdown(
-            """
-            <div class="section-card"
-                 style="text-align:center;padding:48px 20px;">
-                <div style="font-size:4rem;">👞</div>
-                <h3>Footwear Production</h3>
-                <p style="color:#b6cbe3;">
-                    Weekly production planning and decision support
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+    st.image(
+        str(HERO_IMAGE_PATH),
+        use_container_width=True,
+    )
 
 st.markdown("## Weekly production workspace")
 st.caption(
@@ -1106,113 +1195,114 @@ tolerance = 2.0
 
 st.markdown("### 3. Enter the current weekly resources")
 
-st.caption(
-    "Inputs are checked against historical data ranges. "
-    "These are observed historical ranges, not approved operating limits."
-)
+with st.container(border=True):
+    st.caption(
+        "Inputs are checked against historical data ranges. "
+        "These are observed historical ranges, not approved operating limits."
+    )
 
-resource_col1, resource_col2, resource_col3 = st.columns(3)
+    resource_col1, resource_col2, resource_col3 = st.columns(3)
 
-with resource_col1:
-    no_of_workers = st.number_input(
-        f"Number of workers ({worker_min}–{worker_max})",
-        min_value=worker_min,
-        max_value=worker_max,
-        value=int(
-            np.clip(
-                round(
+    with resource_col1:
+        no_of_workers = st.number_input(
+            f"Number of workers ({worker_min}–{worker_max})",
+            min_value=worker_min,
+            max_value=worker_max,
+            value=int(
+                np.clip(
+                    round(
+                        pd.to_numeric(
+                            historical_data["no_of_workers"],
+                            errors="coerce",
+                        ).median()
+                    ),
+                    worker_min,
+                    worker_max,
+                )
+            ),
+            step=1,
+            help="Number of people assigned to this product's weekly production.",
+        )
+        st.caption("People working on the selected product during the week.")
+
+        machine_count = st.number_input(
+            f"Number of machines ({machine_min}–{machine_max})",
+            min_value=machine_min,
+            max_value=machine_max,
+            value=int(
+                np.clip(
+                    round(
+                        pd.to_numeric(
+                            historical_data["machine_count"],
+                            errors="coerce",
+                        ).median()
+                    ),
+                    machine_min,
+                    machine_max,
+                )
+            ),
+            step=1,
+            help="Number of machines available for this product's production.",
+        )
+        st.caption("Machines assigned to the selected production work.")
+
+    with resource_col2:
+        working_hours = st.number_input(
+            f"Total weekly labour-hours ({hour_min:.2f}–{hour_max:.2f})",
+            min_value=float(hour_min),
+            max_value=float(hour_max),
+            value=float(
+                np.clip(
                     pd.to_numeric(
-                        historical_data["no_of_workers"],
+                        historical_data["working_hours"],
                         errors="coerce",
-                    ).median()
-                ),
-                worker_min,
-                worker_max,
-            )
-        ),
-        step=1,
-        help="Number of people assigned to this product's weekly production.",
-    )
-    st.caption("People working on the selected product during the week.")
+                    ).median(),
+                    hour_min,
+                    hour_max,
+                )
+            ),
+            step=1.0,
+            format="%.2f",
+            help=(
+                "Total labour-hours across all workers for the week, not hours per worker."
+            ),
+        )
+        st.caption("Combined hours worked by all workers during the week.")
 
-    machine_count = st.number_input(
-        f"Number of machines ({machine_min}–{machine_max})",
-        min_value=machine_min,
-        max_value=machine_max,
-        value=int(
-            np.clip(
-                round(
+        rate = st.number_input(
+            f"Rate ({rate_min:.2f}–{rate_max:.2f})",
+            min_value=float(rate_min),
+            max_value=float(rate_max),
+            value=float(
+                np.clip(
                     pd.to_numeric(
-                        historical_data["machine_count"],
+                        historical_data["rate"],
                         errors="coerce",
-                    ).median()
-                ),
-                machine_min,
-                machine_max,
-            )
-        ),
-        step=1,
-        help="Number of machines available for this product's production.",
-    )
-    st.caption("Machines assigned to the selected production work.")
+                    ).median(),
+                    rate_min,
+                    rate_max,
+                )
+            ),
+            step=10.0,
+            format="%.2f",
+            help="The historical rate value associated with the selected product.",
+        )
+        st.caption("Recorded product rate used by the prediction model.")
 
-with resource_col2:
-    working_hours = st.number_input(
-        f"Total weekly labour-hours ({hour_min:.2f}–{hour_max:.2f})",
-        min_value=float(hour_min),
-        max_value=float(hour_max),
-        value=float(
-            np.clip(
-                pd.to_numeric(
-                    historical_data["working_hours"],
-                    errors="coerce",
-                ).median(),
-                hour_min,
-                hour_max,
-            )
-        ),
-        step=1.0,
-        format="%.2f",
-        help=(
-            "Total labour-hours across all workers for the week, not hours per worker."
-        ),
-    )
-    st.caption("Combined hours worked by all workers during the week.")
-
-    rate = st.number_input(
-        f"Rate ({rate_min:.2f}–{rate_max:.2f})",
-        min_value=float(rate_min),
-        max_value=float(rate_max),
-        value=float(
-            np.clip(
-                pd.to_numeric(
-                    historical_data["rate"],
-                    errors="coerce",
-                ).median(),
-                rate_min,
-                rate_max,
-            )
-        ),
-        step=10.0,
-        format="%.2f",
-        help="The historical rate value associated with the selected product.",
-    )
-    st.caption("Recorded product rate used by the prediction model.")
-
-with resource_col3:
-    bottleneck_flag = st.selectbox(
-        "Is a bottleneck present?",
-        options=[False, True],
-        format_func=lambda value: (
-            "Yes" if value else "No"
-        ),
-        help="Indicates whether a bottleneck is recorded for this production context.",
-    )
-    st.caption("Whether a production bottleneck is recorded.")
+    with resource_col3:
+        bottleneck_flag = st.selectbox(
+            "Is a bottleneck present?",
+            options=[False, True],
+            format_func=lambda value: (
+                "Yes" if value else "No"
+            ),
+            help="Indicates whether a bottleneck is recorded for this production context.",
+        )
+        st.caption("Whether a production bottleneck is recorded.")
 
     st.markdown(
         """
-        <div class="section-card">
+        <div class="section-card resource-guidance">
             <div style="font-weight:700;color:#c8dafa;">
                 Resource guidance
             </div>
@@ -1293,14 +1383,14 @@ if validation_errors:
 # ============================================================
 
 st.markdown("---")
-st.markdown("### 4. Predict and assess production")
+st.markdown("### Predict and assess production")
 
 st.caption(
     "Turn your production plan into a clearer picture of expected output "
     "and resource options."
 )
 predict_button = st.button(
-    "⚡ Predict Production & Explore Recommendations",
+    "Predict Production & Explore Recommendations",
     type="primary",
     use_container_width=True,
     disabled=bool(validation_errors),
@@ -1612,11 +1702,17 @@ if "di_result" in st.session_state:
                         delta_text = f"Change: {delta_value:+,.2f}"
                     else:
                         delta_text = f"Change: {delta_value:+,d}"
+                    if np.isclose(delta_value, 0, atol=0.01):
+                        change_class = "change-equal"
+                    elif delta_value > 0:
+                        change_class = "change-increase"
+                    else:
+                        change_class = "change-decrease"
                     st.markdown(
                         f"""<div class="resource-row-card proposed">
                             <div class="resource-row-label">{label}</div>
-                            <div class="resource-row-value">{proposed_value}</div>
-                            <div class="resource-row-delta">{delta_text}</div>
+                            <div class="resource-row-value {change_class}">{proposed_value}</div>
+                            <div class="resource-row-delta {change_class}">{delta_text}</div>
                         </div>""",
                         unsafe_allow_html=True,
                     )
@@ -1644,8 +1740,10 @@ if "di_result" in st.session_state:
                 )
 
             if changes:
+                st.markdown('<div class="change-list">', unsafe_allow_html=True)
                 for change in changes:
                     st.markdown(f"- {change}")
+                st.markdown("</div>", unsafe_allow_html=True)
             else:
                 st.info(
                     "The best scenario returned the same resource "
@@ -1771,4 +1869,3 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
