@@ -1,18 +1,8 @@
----
-title: Footwear Production Intelligence
-emoji: "\U0001F45E"
-colorFrom: blue
-colorTo: indigo
-sdk: streamlit
-sdk_version: 1.63.0
-app_file: app.py
-pinned: false
-license: mit
----
+# A Machine Learning–Driven Framework for Predicting Weekly Actual Production Quantity and Prescriptive Optimisation of Production Targets in the Shoe Manufacturing Division of DI Leather
 
-# Footwear Production Intelligence
+This repository implements a complete research and application project for the shoe manufacturing division of DI Leather. It combines predictive regression analysis with a prescriptive, resource-scenario interface for weekly production planning.
 
-Footwear Production Intelligence is a machine-learning application for weekly production forecasting and resource planning in a footwear manufacturing environment.
+The predictive model estimates `actual_qty` from temporal, product, and operating features. The estimated quantity is then compared with a user-entered planned quantity, and the dashboard presents underproduction, overproduction, or within-tolerance decisions and candidate resource scenarios.
 
 The project combines historical production data, predictive modeling, and prescriptive scenario analysis. Users can describe a production context, enter the planned weekly quantity and current resources, and receive:
 
@@ -24,6 +14,10 @@ The project combines historical production data, predictive modeling, and prescr
 - A downloadable file containing evaluated resource scenarios
 
 ## Application preview
+
+The complete interactive dashboard is currently deployed on Render:
+
+https://production-di.onrender.com
 
 ### Production planning workspace
 
@@ -152,8 +146,11 @@ The result view includes:
 production-DI/
 ├── app.py
 ├── requirements.txt
+├── render.yaml
+├── runtime.txt
+├── .python-version
+├── LICENSE
 ├── README.md
-|── app_preview.png
 ├── docs/
 │   └── images/
 │       ├── app_preview_overview.png
@@ -243,7 +240,9 @@ The model-development notebook:
 - Runs residual diagnostics and feature-importance analysis
 - Retrains the selected pipeline on all available records and saves `models/production_model.joblib`
 
-The reports identify the selected model as a Voting Ensemble combining MLP Regressor, XGBoost, and SVR. The saved all-records model is the deployment artifact; its in-sample predictions must not be presented as independent test performance.
+Notebook 4 compares 12 tuned individual regressors and two Voting Regressor ensembles. The selected candidate is the **Inverse-CV-MAE Weighted Voting Ensemble**, combining XGBoost, Support Vector Regression (SVR), and Gradient Boosting. The inverse-CV-MAE weights were 0.2044814802, 0.2042496666, and 0.2041937030 respectively.
+
+The selected model was ranked using time-series cross-validation across CV MAE, CV RMSE, and CV R². Its final cross-validation values were MAE 4.803, RMSE 6.335, and R² 0.763. The training-only evaluation model and the all-records deployment pipeline are saved separately; predictions from the all-records pipeline are in-sample and must not be reported as independent test performance.
 
 ### 5. Notebook 05 — Prediction performance evaluation
 
@@ -271,21 +270,23 @@ The dashboard implements this prototype using exhaustive enumeration. It is not 
 
 ## Model performance reference
 
-The project reports the following held-out test-set results for the selected Voting Ensemble:
+The independently reproduced result in Notebook 5 reports the following held-out chronological test-set values for the selected weighted Voting Ensemble:
 
 | Metric | Reported value |
 |---|---:|
-| R² | 0.801 |
-| MAE | 4.436 units |
-| RMSE | 5.842 units |
+| R² | 0.799 |
+| MAE | 4.451 units |
+| RMSE | 5.859 units |
 
-These are held-out chronological evaluation results reported in the Phase 2 roadmap and should be revalidated if the dataset, feature definitions, preprocessing, or model artifact changes.
+The selected model's internal Notebook 4 diagnostic output reports close test values of R² 0.799, MAE 4.459 units, and RMSE 5.866 units. Notebook 5 is the explicit held-out prediction demonstration and is used as the primary independent test reference above.
+
+The chronological split contains 7,596 training records from 18 April 2022 to 24 March 2025 and 1,899 test records from 24 March 2025 to 30 March 2026. The 16 model inputs are separated from `week_start_date` and `actual_qty`.
 
 ## Installation
 
 ### Requirements
 
-- Python 3.10 or newer
+- Python 3.11
 - A working virtual environment
 - The packages listed in `requirements.txt`
 
@@ -311,6 +312,17 @@ If PowerShell prevents script activation, run the Streamlit command through the 
 ```powershell
 streamlit run app.py
 ```
+
+## Render deployment
+
+The repository includes `render.yaml`, `runtime.txt`, and `.python-version` to configure deployment with Python 3.11.9. The Render web service uses:
+
+```text
+Build: pip install -r requirements.txt
+Start: streamlit run app.py --server.address=0.0.0.0 --server.port=$PORT --server.headless=true
+```
+
+The deployed application is available at https://production-di.onrender.com.
 
 The application expects these files to exist relative to `app.py`:
 
@@ -360,4 +372,4 @@ A model prediction is an estimate based on historical data and is not a guarante
 
 ## License and project context
 
-This repository was developed as a production analytics project for the DI Leather footwear manufacturing context. Add the organisation's approved licence, data-use policy, and contribution guidelines before external distribution.
+This repository uses the MIT licence in `LICENSE`. It was developed as a production analytics research project for the DI Leather footwear manufacturing context. Company approval remains required before any production data, private screenshots, operational findings, or model artifacts are used outside the project team.
