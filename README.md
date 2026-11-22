@@ -373,3 +373,18 @@ A model prediction is an estimate based on historical data and is not a guarante
 ## License and project context
 
 This repository uses the MIT licence in `LICENSE`. It was developed as a production analytics research project for the DI Leather footwear manufacturing context. Company approval remains required before any production data, private screenshots, operational findings, or model artifacts are used outside the project team.
+
+## Research team
+
+**Team 09 | Data Science and Business Analytics**
+
+| Researcher | Student ID |
+|---|---|
+| HM Mallikaarachchi | D/DBA/24/0009 |
+| VJK Rodrigo | D/DBA/24/0024 |
+| KPI Weerasinghe | D/DBA/24/0035 |
+| KGP Pramodith | D/DBA/24/0044 |
+
+**Supervisor:** Mrs. ERC Sandamali
+
+**General Sir John Kotelawala Defence University | Sri Lanka**
